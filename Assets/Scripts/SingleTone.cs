@@ -1,23 +1,22 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class SingleTone : MonoBehaviour
+public class SingleTone<T> : MonoBehaviour where T : SingleTone<T>
 {
-    public static SingleTone instance;
+    public static T Instance;
+
 
     private void Awake()
     {
-        if(instance == null)
-            instance = this;
-    }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(Instance == null)
+        {
+            Instance = (T)this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
 }

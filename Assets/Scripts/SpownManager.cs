@@ -4,7 +4,9 @@ using UnityEngine;
 public class SpownManager : MonoBehaviour
 {
     public GameObject enemy;
-    List<Enemy> enemys;
+
+    public List<Enemy> enemies;
+    private Dictionary< int ,Enemy> levelEnemy;
 
     int maxEnemy = 20;
 
@@ -18,6 +20,31 @@ public class SpownManager : MonoBehaviour
         
     }
 
+/*    private void SetEnemy()
+    {
+        if (enemies != null)
+        {
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                levelEnemy.Add(i, enemies[i]);
+            }
+        }
+        else
+            Debug.Log("리스트가 비어있음");
+    }
+
+    private void CheckLevel(int level)
+    {
+        switch (level)
+        { 
+            case 0:
+                //딕셔너리에 0번 몬스터가 나오게
+        
+        
+        }
+
+
+    }*/
     private void CreatEnenmy()
     {
         float height = Camera.main.orthographicSize;
