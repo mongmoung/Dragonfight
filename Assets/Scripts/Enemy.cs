@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject effect;
+    public ParticleSystem effect;
 
     public float speed = 0.5f;
     private float distanceY;
@@ -29,15 +29,18 @@ public class Enemy : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag ("bullet"))
+        if (collision.gameObject.GetComponent<Bullet>())
         {
-            Destroy (collision.gameObject);
             Destroy(gameObject);
-
-            GameObject go = Instantiate(effect, transform.position, Quaternion.identity);
-            Destroy(go, 1);
+            Die();
         }
     }
 
+    private void Die()
+    {
+        ParticleSystem go = Instantiate(effect, transform.position, Quaternion.identity);
+        gameObject.SetActive (false);
+        GameManager.Instance.AddScore(+10);
+    }
 
 }

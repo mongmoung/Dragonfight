@@ -1,22 +1,54 @@
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class Launcher : MonoBehaviour
 {
-    public GameObject bullet;
+    public Bullet bullet;
+    private List<Bullet> bullets = new List<Bullet>();
+
+    private int maxCount = 20;
 
     void Start()
     {
-        InvokeRepeating("Shoot", 0.5f, 1f);
+        CreatBulletPool();
+        StartCoroutine(ShootCo());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void CreatBulletPool()
     {
-        
+        for (int i = 0; i < maxCount; i++)
+        {
+            Bullet clonBuller = Instantiate(bullet, transform.position, Quaternion.identity);
+            clonBuller.gameObject.SetActive(false);
+            bullets.Add(clonBuller);
+        }
     }
 
-    private void Shoot()
+    private Bullet GetBullet()
     {
-        Instantiate(bullet,transform.position,Quaternion.identity);
+        foreach (Bullet bullet in bullets)
+        {
+            if (bullet.gameObject.activeSelf == false)
+            {
+                bullet.transform.position = transform.position;
+                bullet.transform.rotation = Quaternion.identity;
+                return bullet;
+            }
+        }
+        return null;
     }
+
+    public IEnumerator ShootCo()
+    {       
+        while (true)
+        {
+            Bullet useBullet = GetBullet();
+            useBullet.gameObject.SetActive(true);
+            yield return new WaitForSeconds(1);
+        }
+
+    }
+
 }

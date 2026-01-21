@@ -1,18 +1,20 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class SpownManager : MonoBehaviour
 {
-    public GameObject enemy;
 
-    public List<Enemy> enemies;
-    private Dictionary< int ,Enemy> levelEnemy;
+    public List<Enemy> enemys;
+    private Dictionary< int ,Enemy> levelEnemy = new Dictionary<int, Enemy>();
 
-    int maxEnemy = 20;
+    int curCount = 0;
+    int maxCount = 20;
 
     void Start()
     {
-        InvokeRepeating("CreatEnenmy", 0.5f, 1);
+        SetEnemy();
+        StartCoroutine(SpownCo(0));
     }
 
     void Update()
@@ -20,32 +22,21 @@ public class SpownManager : MonoBehaviour
         
     }
 
-/*    private void SetEnemy()
+    private void SetEnemy()
     {
-        if (enemies != null)
+        if (enemys != null)
         {
-            for (int i = 0; i < enemies.Count; i++)
+            for (int i = 0; i < enemys.Count; i++)
             {
-                levelEnemy.Add(i, enemies[i]);
+                levelEnemy.Add(i, enemys[i]);
             }
         }
         else
             Debug.Log("리스트가 비어있음");
     }
 
-    private void CheckLevel(int level)
-    {
-        switch (level)
-        { 
-            case 0:
-                //딕셔너리에 0번 몬스터가 나오게
-        
-        
-        }
 
-
-    }*/
-    private void CreatEnenmy()
+    private void CreatEnenmy(Enemy enemy)
     {
         float height = Camera.main.orthographicSize;
         float Width = height * Screen.width / Screen.height;
@@ -54,18 +45,24 @@ public class SpownManager : MonoBehaviour
         float leftX = -halfWidth;
         float randomX =  Random.Range(leftX, Width);
 
-        GameObject monster = Instantiate(enemy , new Vector3(randomX, height, 0), Quaternion.identity );
-/*        for(int i = 0; i < maxEnemy; i++)
-        {
-            if(monster.TryGetComponent<Enemy>(out Enemy clone))
-            {
-                enemys.Add(clone);
-            }
-        }*/
+        Enemy monster = Instantiate(enemy , new Vector3(randomX, height, 0), Quaternion.identity );
     }
 
-    public void SpownEnemy()
+    private IEnumerator SpownCo(int level)
     {
+        float waitSpown = 1.5f;
 
+        while(curCount <= maxCount)
+        {
+            levelEnemy.TryGetValue(level, out Enemy monster);
+            for (int i = 0; i < maxCount; i++)
+            {
+                CreatEnenmy(monster);
+                yield return new WaitForSeconds(waitSpown);
+                curCount++;
+            }
+        }
+        curCount = 0;
     }
+
 }
