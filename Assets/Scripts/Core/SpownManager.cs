@@ -17,11 +17,6 @@ public class SpownManager : MonoBehaviour
         StartCoroutine(SpownCo(0));
     }
 
-    void Update()
-    {
-        
-    }
-
     private void SetEnemy()
     {
         if (enemys != null)
