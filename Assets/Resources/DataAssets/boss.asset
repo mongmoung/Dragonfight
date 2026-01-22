@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc49d8da016d11740a86dab5413b8a6c, type: 3}
   m_Name: boss
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
-  monsterName: 
+  monsterNum: 0
   hp: 0
   speed: 0
-  monsterSprite: {fileID: 0}
-  efftct: {fileID: 0}
+  monsterSprite: {fileID: -2424553518018739129, guid: 62289bbe9ad64294ea4523ec051f9961, type: 3}
+  effct: {fileID: 0}
